@@ -1,7 +1,7 @@
 import cv2
 
 # Lade das Referenzbild
-reference_image = cv2.imread('C:/Users/mariu/4. Semester/Projekt/Bilder/Katze_1.jpg')
+reference_image = cv2.imread('C:/Users/mariu/4. Semester/Projekt/Bilder/Katze.png')
 
 # Erstelle einen Kamera-Objekt
 camera = cv2.VideoCapture(0)
