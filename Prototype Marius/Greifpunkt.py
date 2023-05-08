@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-<<<<<<< HEAD
+
 # Bild laden
 img = cv2.imread('F:/mariu/Desktop/Projekt 3 HS/Einhorn.png')
 
