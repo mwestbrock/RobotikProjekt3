@@ -16,7 +16,7 @@ img = img[239:239+68, 247:247+151]
 # Konvertiere das Bild in Graustufen
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-#Schwellenwert einstellen
+#Schwellenwert einstellen (schwellenwert automatisieren)
 schwellenwert = 130
 ret, thresh = cv2.threshold(gray, schwellenwert, 255, cv2.THRESH_BINARY)
 
