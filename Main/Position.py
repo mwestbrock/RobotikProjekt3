@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
 
-def grippingPoint(bounding_box): #bounding_box = Pfad zum Bild bounding_box = Extrahiertes Objekt als Bild
+
+
+
+#METHODE GREIFPUNKT
+def grippingPoint(bounding_box): #bounding_box = Extrahiertes Objekt als Bild
 
     image =  cv2.imread(bounding_box)
 
@@ -29,6 +33,3 @@ def grippingPoint(bounding_box): #bounding_box = Pfad zum Bild bounding_box = Ex
     cv2.imshow('Greifpunkt',image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
-
-grippingPoint('C:/Users/mariu/4. Semester/Projekt/Bilder/Einhorn.png')
