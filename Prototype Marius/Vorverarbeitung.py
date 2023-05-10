@@ -2,7 +2,17 @@ import cv2
 import numpy as np
 
 # Bild laden und in Graustufenbild konvertieren
-img = cv2.imread('C:/Users/mariu/4. Semester/Projekt/Bilder/Einhorn_3.jpg')
+img = cv2.imread('F:/mariu/Desktop/Projekt 3 HS/Bilder/Scale.jpg')
+
+# Definiere die neue Größe des Bildes
+scale_percent = 50 # Prozentsatz der ursprünglichen Größe
+width = int(img.shape[1] * scale_percent / 100)
+height = int(img.shape[0] * scale_percent / 100)
+dim = (width, height)
+
+# Skaliere das Bild auf die neue Größe
+img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Wenden Sie einen Canny-Filter an, um Kanten zu erkennen
@@ -10,7 +20,7 @@ edges = cv2.Canny(gray, 50, 150,apertureSize=3)
 lines = cv2.HoughLines(edges, 1, np.pi/180, threshold=255)
 
 # Zeichnen Sie die Linien auf dem Bild
-for line in lines:
+"""for line in lines:
     rho, theta = line[0]
     a = np.cos(theta)
     b = np.sin(theta)
@@ -22,6 +32,7 @@ for line in lines:
     y2 = int(y0 - 1000 * (a))
     cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
 
+"""
 # Schwellenwert für Schwarz setzen
 threshold = 100
 
@@ -109,6 +120,6 @@ cv2.line(warped,(0,y_line),(1000,y_line),(255,0,0),1)
 
 # Bild anzeigen
 cv2.imshow('image', img)
-cv2.imshow('warped', warped)
+#cv2.imshow('warped', warped)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

@@ -3,11 +3,11 @@ import numpy as np
 
 def grippingPoint(bounding_box): #bounding_box = Pfad zum Bild bounding_box = Extrahiertes Objekt als Bild
 
-    image =  cv2.imread(bounding_box)
+    image = bounding_box
 
     #Bild in Binär Konvertieren
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, binary_image = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+    ret, binary_image = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
 
     #Euklidische Distanz von Binärem-Bild
     transformed_image = cv2.distanceTransform(binary_image, cv2.DIST_L2, cv2.DIST_MASK_PRECISE)
@@ -17,18 +17,20 @@ def grippingPoint(bounding_box): #bounding_box = Pfad zum Bild bounding_box = Ex
     grippingPoint = np.where(dist_output == np.max(dist_output))
 
     #Greifpunkt in Bild zeichnen
-    cv2.circle(image, (grippingPoint[1][0], grippingPoint[0][0]), 70, (0,0,255), -1)
+    cv2.circle(image, (grippingPoint[1][0], grippingPoint[0][0]), 5, (0,0,255), -1)
 
     #Greifpunkt Koordinaten
     x = grippingPoint[0][0].item()
     y = grippingPoint[1][0].item()
 
+    return x, y
+
     #Ausgabe Koordinaten
-    print("Greifpunkt Koordiante: ",x ,"|",y)
+    #print("Greifpunkt Koordiante: ",x ,"|",y)
 
-    cv2.imshow('Greifpunkt',image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('Greifpunkt',image)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
 
-grippingPoint('C:/Users/mariu/4. Semester/Projekt/Bilder/Einhorn.png')
+#grippingPoint('C:/Users/mariu/4. Semester/Projekt/Bilder/Einhorn.png')
