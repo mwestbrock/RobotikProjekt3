@@ -10,8 +10,8 @@ import joblib
 # Funktion für die Objektunterscheidung
 def predict_with_svm(model, bounding_box, textImage):
 
-    Categories = ['cat', 'unicorn']
-    img_resize = resize(bounding_box, (150, 150, 3))
+    Categories = ['cat_binary', 'unicorn_binary']
+    img_resize = resize(bounding_box, (150, 150, 1))
     flattened_img = img_resize.flatten()
     l = [flattened_img]
 
@@ -25,7 +25,7 @@ def predict_with_svm(model, bounding_box, textImage):
 
 #MAIN PROGRAMM
 #Pfad svm Model
-svm_path = 'F:/mariu/Desktop/ProjektBilder/pics/svm_model_V1.pkl'
+svm_path = 'F:/mariu/Desktop/ProjektBilder/pics/svm_model_binary.pkl'
 #Pfad zum Video
 video_path = 'F:/mariu/Desktop/Projekt 3 HS/Videos/CatsUnicorns.mp4'
 
@@ -45,12 +45,15 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 wait_time = int(1000/fps)                    #Formel für Wartezeit
 print("FPS: ", fps)
 
+
+
 # Video, Frame für Frame durchgehen und anzeigen
 while True:
     ret,frame = cap.read()
     if not ret:
         print("Fehler beim Lesen des Frames")
         break
+    #Geschwindigkkeit der Objekte berechnen
 
     #Bild skalieren
     scale_percent = 50 # Prozentsatz der ursprünglichen Größe
@@ -72,13 +75,14 @@ while True:
     transformedFrame = cv2.warpPerspective(frame,M,(trFrameX,trFrameY))
 
     #Förderband bereich auswählen
-    yBeltW = trFrameY - 119
-    yBeltL = trFrameY-1
+    yBeltW = trFrameY - 118
+    yBeltL = trFrameY
     xBeltW = 0
     xBeltL = trFrameX
 
     conveyerBelt = transformedFrame[yBeltW:yBeltL, xBeltW:xBeltL]
     cv2.drawMarker(transformedFrame, (xBeltW, yBeltW), (0, 0, 255), cv2.MARKER_CROSS, 20, 2)
+
 
     # Konvertiere das Bild in Graustufen
     gray = cv2.cvtColor(conveyerBelt, cv2.COLOR_BGR2GRAY)
@@ -90,7 +94,6 @@ while True:
     #Kontur finden
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-
     #Grenzen für SVM
     xminSVM = 200
     yminSVM = 0
@@ -101,15 +104,16 @@ while True:
     cv2.line(transformedFrame, (xminSVM, yminSVM), (xminSVM, ymaxSVM), (0, 0, 255), 1)
     cv2.line(transformedFrame, (xmaxSVM, yminSVM), (xmaxSVM, ymaxSVM), (0, 0, 255), 1)
 
+
+
     #Bounding-Box einzeichnen
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
+        #Boundingbox extrahieren
         bounding_box = thresh[y:y+h, x:x+w]
 
 
         if x > xminSVM  and x + w < xmaxSVM:
-            #boundingbox extrahieren
-
 
             #Bounding-Box einzeichnen
             cv2.rectangle(conveyerBelt, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -119,7 +123,6 @@ while True:
             predict_with_svm(svm_model,bounding_box,draw_boundingbox)
             #Greifpunkt berechnen
             gp.grippingPoint(bounding_box,draw_boundingbox)
-
 
 
     cv2.imshow('Video', transformedFrame)

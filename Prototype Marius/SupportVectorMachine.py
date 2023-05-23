@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 import os
 from skimage.io import imread
 from skimage.transform import resize
-import cv2
 import numpy as np
 import pandas as pd
 import joblib
