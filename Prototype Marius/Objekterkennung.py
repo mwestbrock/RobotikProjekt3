@@ -11,7 +11,7 @@ import joblib
 def predict_with_svm(model, bounding_box, textImage):
 
     Categories = ['cat', 'unicorn']
-    img_resize = resize(bounding_box, (150, 150, 1))
+    img_resize = resize(bounding_box, (150, 150, 3))
     flattened_img = img_resize.flatten()
     l = [flattened_img]
 
@@ -25,7 +25,7 @@ def predict_with_svm(model, bounding_box, textImage):
 
 #MAIN PROGRAMM
 #Pfad svm Model
-svm_path = 'F:/mariu/Desktop/ProjektBilder/pics/svm_model_V3.pkl'
+svm_path = 'F:/mariu/Desktop/ProjektBilder/pics/svm_model_V1.pkl'
 #Pfad zum Video
 video_path = 'F:/mariu/Desktop/Projekt 3 HS/Videos/CatsUnicorns.mp4'
 
