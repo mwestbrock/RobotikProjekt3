@@ -3,10 +3,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 import queue
 import Greifpunkt as gp
+from skimage.transform import resize
+import joblib
 
+
+# Funktion für die Objektunterscheidung
+def predict_with_svm(model, bounding_box, textImage):
+
+    Categories = ['cat', 'unicorn']
+    img_resize = resize(bounding_box, (150, 150, 1))
+    flattened_img = img_resize.flatten()
+    l = [flattened_img]
+
+    # Perform prediction on the input image
+    #probability = model.predict_proba(l)
+    #for ind, val in enumerate(Categories):
+    #print(f'{val} = {probability[0][ind] * 100}%')
+    #print("The predicted image is:", Categories[model.predict(l)[0]])
+    cv2.putText(textImage, Categories[model.predict(l)[0]], (5, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+    return
+
+#MAIN PROGRAMM
+#Pfad svm Model
+svm_path = 'F:/mariu/Desktop/ProjektBilder/pics/svm_model_V3.pkl'
+#Pfad zum Video
+video_path = 'F:/mariu/Desktop/Projekt 3 HS/Videos/CatsUnicorns.mp4'
+
+# SVM-Modell laden
+svm_model = joblib.load(svm_path)
 
 # Video laden
-cap = cv2.VideoCapture('F:/mariu/Desktop/Projekt 3 HS/Videos/CatsUnicorns.mp4 ') #VideoCapture(0) für Kamera
+cap = cv2.VideoCapture(video_path) #VideoCapture(0) für Kamera
 
 # Überprüfen, ob das Video erfolgreich geladen wurde
 if not cap.isOpened():
@@ -16,14 +43,7 @@ if not cap.isOpened():
 #Wartezeit für flüssiges Video berechnen
 fps = cap.get(cv2.CAP_PROP_FPS)
 wait_time = int(1000/fps)                    #Formel für Wartezeit
-#print("FPS: ", fps)
-
-#Queue
-queue = queue.Queue()
-
-#Objekt Zähler
-counter = 0
-ID = "ID"+str(counter)
+print("FPS: ", fps)
 
 # Video, Frame für Frame durchgehen und anzeigen
 while True:
@@ -43,16 +63,25 @@ while True:
 
     #Perspektive transformieren
     rows,cols,ch = frame.shape
+    trFrameX = 900
+    trFrameY = 180
     pts1 = np.float32([[89,232],[635,286],[75,382],[633,407]])
-    pts2 = np.float32([[0,0],[900,0],[0,200],[900,200]])
+    pts2 = np.float32([[0,0],[trFrameX,0],[0,trFrameY],[trFrameX,trFrameY]])
     M = cv2.getPerspectiveTransform(pts1,pts2)
-    dst = cv2.warpPerspective(frame,M,(900,200))
 
-    crop_img = dst[69:195, 0:900]
-    cv2.drawMarker(dst, (0, 69), (0, 0, 255), cv2.MARKER_CROSS, 20, 2)
+    transformedFrame = cv2.warpPerspective(frame,M,(trFrameX,trFrameY))
+
+    #Förderband bereich auswählen
+    yBeltW = trFrameY - 119
+    yBeltL = trFrameY-1
+    xBeltW = 0
+    xBeltL = trFrameX
+
+    conveyerBelt = transformedFrame[yBeltW:yBeltL, xBeltW:xBeltL]
+    cv2.drawMarker(transformedFrame, (xBeltW, yBeltW), (0, 0, 255), cv2.MARKER_CROSS, 20, 2)
 
     # Konvertiere das Bild in Graustufen
-    gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(conveyerBelt, cv2.COLOR_BGR2GRAY)
 
     #Schwellenwert einstellen
     schwellenwert = 200
@@ -61,19 +90,39 @@ while True:
     #Kontur finden
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+
+    #Grenzen für SVM
+    xminSVM = 200
+    yminSVM = 0
+    xmaxSVM = 820
+    ymaxSVM = trFrameY
+
+    #Grenzen einzeichnen
+    cv2.line(transformedFrame, (xminSVM, yminSVM), (xminSVM, ymaxSVM), (0, 0, 255), 1)
+    cv2.line(transformedFrame, (xmaxSVM, yminSVM), (xmaxSVM, ymaxSVM), (0, 0, 255), 1)
+
     #Bounding-Box einzeichnen
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
-        cv2.rectangle(crop_img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        bounding_box = thresh[y:y+h, x:x+w]
 
 
-        #boundingbox extrahieren
-        bounding_box = crop_img[y:y+h, x:x+w]
-        gp.grippingPoint(bounding_box)
-        #cv2.putText(crop_img, "x: " + str(x) + " y: " + str(y), (x+100, y+20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+        if x > xminSVM  and x + w < xmaxSVM:
+            #boundingbox extrahieren
 
 
-    cv2.imshow('Video', dst)
+            #Bounding-Box einzeichnen
+            cv2.rectangle(conveyerBelt, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            #Bild für SVM vorbereiten
+            draw_boundingbox = conveyerBelt[y:y+h, x:x+w]
+            #Objektunterscheidung
+            predict_with_svm(svm_model,bounding_box,draw_boundingbox)
+            #Greifpunkt berechnen
+            gp.grippingPoint(bounding_box,draw_boundingbox)
+
+
+
+    cv2.imshow('Video', transformedFrame)
     if cv2.waitKey(wait_time) & 0xff == ord('q'): #q drücken um Video zu beenden
         break
 
