@@ -65,3 +65,5 @@ while True:
         break
 
 detector.release()
+
+print(detector.marker_centers)
