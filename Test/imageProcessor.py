@@ -36,8 +36,8 @@ class ImageProcessor:
         #Nullpunkt einzeichnen
         cv2.drawMarker(transformed_frame, (self.xBeltW, self.yBeltW), (0, 0, 255), cv2.MARKER_CROSS, 20, 2)
 
-        cv2.line(transformed_frame, (self.xminDet, self.yminDet), (self.xminDet, self.ymaxDet), (0, 0, 255), 1)
-        cv2.line(transformed_frame, (self.xmaxDet, self.yminDet), (self.xmaxDet, self.ymaxDet), (0, 0, 255), 1)
+        #cv2.line(transformed_frame, (self.xminDet, self.yminDet), (self.xminDet, self.ymaxDet), (0, 0, 255), 1)
+        #cv2.line(transformed_frame, (self.xmaxDet, self.yminDet), (self.xmaxDet, self.ymaxDet), (0, 0, 255), 1)
 
         detection_area = transformed_frame[self.yBeltW:self.yBeltL, self.xBeltW:self.xBeltL]
 
@@ -50,3 +50,11 @@ class ImageProcessor:
 
     def getxMaxDet(self):
         return self.xmaxDet
+
+    def getyMinDet(self):
+        return self.yminDet
+
+    def getyMaxDet(self):
+        return self.ymaxDet
+
+

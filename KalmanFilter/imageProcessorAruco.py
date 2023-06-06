@@ -76,8 +76,8 @@ class ImageProcessor:
 
         warped_frame = cv2.warpPerspective(frame, perspective_matrix, (width, height))
         # Draw lines for conveyor belt
-        cv2.line(warped_frame, (0, self.cmToPixel(3)), (width, self.cmToPixel(3)), (0, 0, 255), 2)
-        cv2.line(warped_frame, (self.cmToPixel(3), 0), (self.cmToPixel(3), height), (0, 0, 255), 2)
+        #cv2.line(warped_frame, (0, self.cmToPixel(3)), (width, self.cmToPixel(3)), (0, 0, 255), 2)
+        #cv2.line(warped_frame, (self.cmToPixel(3), 0), (self.cmToPixel(3), height), (0, 0, 255), 2)
         return warped_frame
 
     def crop_warped_image(self, warped_frame):
@@ -100,6 +100,42 @@ class ImageProcessor:
         cropped_frame = warped_frame[y:y+height, x:x+width]
         return cropped_frame
 
+    def getCroppedFrameX(self):
+        """
+        Returns the x-coordinate of the cropped frame.
+
+        Returns:
+            int: The x-coordinate of the cropped frame.
+        """
+        return 0
+
+    def getCroppedFrameY(self):
+        """
+        Returns the y-coordinate of the cropped frame.
+
+        Returns:
+            int: The y-coordinate of the cropped frame.
+        """
+        return self.cmToPixel(3)
+
+    def getCroppedFrameWidth(self):
+        """
+        Returns the width of the cropped frame.
+
+        Returns:
+            int: The width of the cropped frame.
+        """
+        return self.cmToPixel(3)
+
+    def getCroppedFrameHeight(self):
+        """
+        Returns the height of the cropped frame.
+
+        Returns:
+            int: The height of the cropped frame.
+        """
+        return self.cmToPixel(3)
+
     def cmToPixel(self, cm):
         """
         Converts centimeters to pixels.
@@ -120,13 +156,14 @@ class ImageProcessor:
         cv2.destroyAllWindows()
 
 # Example usage with a video
+"""
 cap = cv2.VideoCapture("F:/mariu/Desktop/Projekt 3 HS/Videos/AruCoGemischt.mp4")
 imageProcessor = ImageProcessor()
 while True:
     ret, frame = cap.read()
     if not ret:
         break
-    frame = imageProcessor.resize_frame(frame, 50)
+    frame = imageProcessor.resize_frame(frame, 100)
     marker_centers = imageProcessor.detect_markers(frame)
     warped_frame = imageProcessor.transform_to_birds_eye_view(frame, marker_centers)
     cropped_frame = imageProcessor.crop_warped_image(warped_frame)
@@ -136,3 +173,4 @@ while True:
 imageProcessor.release()
 cap.release()
 cv2.destroyAllWindows()
+"""

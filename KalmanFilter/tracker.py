@@ -10,7 +10,6 @@ class Tracker:
         # each time a new object id detected, the count will increase by one
         self.id_count = 0
 
-
     def update(self, objects_rect):
         objects_bbs_ids = []
 
@@ -45,8 +44,6 @@ class Tracker:
 
         self.center_points = new_center_points.copy()
         return objects_bbs_ids
-
-
 
     def velocity(self, object_id, fps):
         if object_id in self.center_points:
@@ -92,5 +89,44 @@ class Tracker:
 
 
 
+    def predict_coordinates(self, object_id, num_predictions, fps):
+        if object_id in self.center_points:
+            center_points = self.center_points[object_id]
+            num_points = len(center_points)
 
+            if num_points >= 2:
+                # Convert center points to numpy array for Kalman filter input
+                center_points = np.array(center_points, dtype=np.float32)
+
+                # Create Kalman filter object
+                kalman = cv2.KalmanFilter(4, 2)  # 4 states (x, y, dx, dy), 2 measurements (x, y)
+
+                # Initialize Kalman filter parameters
+                kalman.transitionMatrix = np.array([[1, 0, 1, 0],
+                                                    [0, 1, 0, 1],
+                                                    [0, 0, 1, 0],
+                                                    [0, 0, 0, 1]], dtype=np.float32)
+                kalman.measurementMatrix = np.array([[1, 0, 0, 0],
+                                                     [0, 1, 0, 0]], dtype=np.float32)
+                kalman.processNoiseCov = np.array([[1e-4, 0, 1e-2, 0],
+                                                   [0, 1e-4, 0, 1e-2],
+                                                   [1e-2, 0, 1, 0],
+                                                   [0, 1e-2, 0, 1]], dtype=np.float32) * 0.01
+                kalman.measurementNoiseCov = np.array([[1, 0],
+                                                       [0, 1]], dtype=np.float32) * 1
+
+                # Initialize Kalman filter with the first center point
+                kalman.statePre = np.array([center_points[0][0], center_points[0][1], 0, 0], dtype=np.float32)
+                kalman.statePost = np.array([center_points[0][0], center_points[0][1], 0, 0], dtype=np.float32)
+
+                # Predict and update Kalman filter for each center point
+                predicted_coordinates = []
+                for i in range(1, num_points):
+                    kalman.correct(center_points[i])
+                    predicted_state = kalman.predict()
+                    predicted_coordinates.append((predicted_state[0], predicted_state[1]))
+
+                return predicted_coordinates[:num_predictions]
+
+        return None
 
