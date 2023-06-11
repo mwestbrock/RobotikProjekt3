@@ -1,23 +1,56 @@
+import math
+import time
 from collections import deque
 import cv2
 import numpy as np
-from KalmanFilter.kalmanfilter import KalmanFilter
-from tracker import *
 from imageProcessorAruco import ImageProcessor
 from Greifpunkt import grippingPoint
+from filterpy.kalman import KalmanFilter
+class DetectedObject:
+    def __init__(self, id, x, y, timeInSeconds):
+        self.id = id
+        self.kalman = KalmanFilter(dim_x=4, dim_z=2)
+        self.timeInSeconds = timeInSeconds
+
+        self.kalman.x = np.array([x, y, 0., 0.])
+
+        self.kalman.F = np.array([[1., 0., 1., 0.],
+                                    [0., 1., 0., 1.],
+                                    [0., 0., 1., 0.],
+                                    [0., 0., 0., 1.]])
+
+        self.kalman.H = np.array([[1., 0., 0., 0.],
+                                    [0., 1., 0., 0.]])
+
+        self.kalman.P = np.array([[1000., 0., 0., 0.],
+                                    [0., 1000., 0., 0.],
+                                    [0., 0., 1000., 0.],
+                                    [0., 0., 0., 1000.]])
+
+        self.kalman.R = np.array([[0.1, 0.],
+                                    [0., 0.1]])
+
+        self.kalman.Q = np.array([[0.001, 0., 0.001, 0.],
+                                    [0., 0.001, 0., 0.001],
+                                    [0.001, 0., 0.001, 0.],
+                                    [0., 0.001, 0., 0.001]])
+
+
+
+
+
 
 class ObjectDetection:
     def __init__(self):
-        self.kf = KalmanFilter()
-        self.tracker = Tracker()
+
         self.threshold = 150
-        self.imageProcessor = ImageProcessor()
         self.object_ids = []
-        self.velocities = []
         self.object_queue = {}
         self.minItemArea = 4000
-        self.minDetectioBorder = 0
+        self.minDetectionBorder = 0
         self.maxDetectionBorder = 40 * 10
+        self.detectedObjects = []
+        self.id = 0
 
 
     def process_frame(self, cropped_frame, fps):
@@ -28,58 +61,91 @@ class ObjectDetection:
 
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        detectionsArr = []
-        predictedArr = []
-        velocitiesArr = []
-        object_idsArr = []
-
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if area > self.minItemArea:
                 x, y, w, h = cv2.boundingRect(cnt)
 
-                if x > self.minDetectioBorder and x + w < self.maxDetectionBorder:
+                if x > self.minDetectionBorder and x + w < self.maxDetectionBorder:
                     bounding_box = thresh[y:y + h, x:x + w]
-                    detectionsArr.append([x, y, w, h])
                     gpx, gpy = grippingPoint(bounding_box)
                     cx = x + gpx
                     cy = y + gpy
-                    cv2.rectangle(cropped_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                    predicted = self.kf.predict(cx, cy)
-                    cv2.circle(cropped_frame, (int(cx), int(cy)), 4, (0, 0, 255), -1)
-                    cv2.circle(cropped_frame, (int(predicted[0]), int(predicted[1])), 7, (0, 255, 0), -1)
-                    predictedArr.append(predicted)
 
-        boxes_ids = self.tracker.update(detectionsArr)
+                    matchedObject = None
+                    #Hier Könnte ihre Kalman Logik stehen
+                    if self.detectedObjects:
+                        obj = self.detectedObjects[-1]
 
-        for box_id in boxes_ids:
-            x, y, w, h, id = box_id
-            cv2.putText(cropped_frame, str(id), (x, y + 30), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 2)
-            cv2.rectangle(cropped_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            object_idsArr.append(id)
-            object_velocity = self.tracker.velocity(id, fps)
+                        dist = math.hypot(cx - obj.kalman.x[0], cy - obj.kalman.x[1])
+
+
+                        if dist < 25:
+                            matchedObject = obj
+
+                    if matchedObject is not None:
+                        matchedObject.kalman.update(np.array([cx, cy]))
+                        predicted = matchedObject.kalman.predict(time.time()-matchedObject.timeInSeconds)
+
+                        #cv2.circle(cropped_frame, (int(cx), int(cy)), 4, (0, 0, 255), -1)
+                        #cv2.circle(cropped_frame, (int(predicted[0]), int(predicted[1])), 7, (0, 255, 0), -1)
+
+                        matchedObject.timeInSeconds = time.time()
+                    else:
+                        newObject = DetectedObject(++self.id, cx, cy, time.time())
+                        self.detectedObjects.append(newObject)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            """object_velocity = self.tracker.velocity(id, fps)
             velocitiesArr.append(object_velocity)
             filtered_velocities = [v for v in velocitiesArr if v is not None]
             if len(filtered_velocities) > 0:
                 avg_velocity = sum(filtered_velocities) / len(filtered_velocities)
                 avg_velocity = np.round(avg_velocity, 2)
                 cv2.putText(cropped_frame, str(avg_velocity) + "cm/s", (x, y + 150), cv2.FONT_HERSHEY_PLAIN, 2,
-                            (0, 100, 255), 2)
+                            (0, 100, 255), 2)"""
 
-        return predictedArr, velocitiesArr, object_idsArr
+    def predict_timer(self):
+        """Predicts the position of each object using kalman filter and timer"""
+        # Predict position of each object
+        for obj in self.detectedObjects:
+            # Get current time in seconds
+            timeInSeconds = time.time()
+            # Check if 0.1 seconds have passed
+            if timeInSeconds - obj.timeInSeconds > 0.1:
+                # Update timer
+                obj.timeInSeconds = timeInSeconds
+                # Predict position
+                obj.kalman.predict(timeInSeconds - obj.timeInSeconds)
 
-    def create_object_queue(self, object_id, predicted, velocities):
+
+
+    def create_object_queue(self, object_id, predicted):
         for i in range(len(object_id)):
             if object_id[i] not in self.object_ids:
                 self.object_ids.append(object_id[i])
                 self.object_queue[object_id[i]] = deque(maxlen=30)
-            self.object_queue[object_id[i]].appendleft((predicted[i], velocities[i]))
+            self.object_queue[object_id[i]].appendleft((predicted[i]))
 
         return self.object_queue
 
     def main(self):
-        kf = KalmanFilter()
-        tracker = Tracker()
         imageProcessor = ImageProcessor()
         object_ids = []
 
@@ -97,10 +163,10 @@ class ObjectDetection:
             warped_frame = imageProcessor.transform_to_birds_eye_view(resized_frame, marker_centers)
             cropped_frame = imageProcessor.crop_warped_image(warped_frame)
 
-            predicted, velocities, object_id = self.process_frame(cropped_frame, fps)
+            self.process_frame(cropped_frame, fps)
 
-            object_queue = self.create_object_queue(object_id, predicted, velocities)
-            print(object_queue)
+            #object_queue = self.create_object_queue(object_id, predicted)
+            #print(object_queue)
 
             cv2.imshow("Frame", cropped_frame)
             cv2.waitKey(wait_time)
