@@ -45,7 +45,7 @@ class Tracker:
         self.center_points = new_center_points.copy()
         return objects_bbs_ids
 
-    def velocity(self, object_id, fps):
+    """def velocity(self, object_id, fps):
         if object_id in self.center_points:
             center_points = self.center_points[object_id]
             num_points = len(center_points)
@@ -85,7 +85,7 @@ class Tracker:
                 # Calculate average velocity using Kalman filter predictions
                 avg_velocity = (np.mean(velocities,axis=0) * 22) / fps  # Convert to cm/s
 
-                return avg_velocity
+                return avg_velocity"""
 
 
 
