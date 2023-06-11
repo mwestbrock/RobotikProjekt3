@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import Greifpunkt as gp
 
 def detect_objects(cropped_frame, kf):
     gray = cv2.cvtColor(cropped_frame, cv2.COLOR_BGR2GRAY)
@@ -19,7 +20,7 @@ def detect_objects(cropped_frame, kf):
             if x > 0 and x + w < 40*10:
                 bounding_box = thresh[y:y+h, x:x+w]
                 detections.append([x, y, w, h])
-                gpx, gpy = grippingPoint(bounding_box)
+                gpx, gpy = gp.grippingPoint(bounding_box)
                 cx = x + gpx
                 cy = y + gpy
                 cv2.rectangle(cropped_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)

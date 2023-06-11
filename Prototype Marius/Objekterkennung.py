@@ -1,8 +1,6 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import queue
-import Greifpunkt as gp
+from KalmanFilter import Greifpunkt as gp
 from skimage.transform import resize
 import joblib
 
