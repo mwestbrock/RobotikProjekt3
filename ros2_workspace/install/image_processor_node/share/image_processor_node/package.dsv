@@ -1,0 +1,9 @@
+source;share/image_processor_node/hook/pythonpath.ps1
+source;share/image_processor_node/hook/pythonpath.dsv
+source;share/image_processor_node/hook/pythonpath.sh
+source;share/image_processor_node/hook/ament_prefix_path.ps1
+source;share/image_processor_node/hook/ament_prefix_path.dsv
+source;share/image_processor_node/hook/ament_prefix_path.sh
+source;../../build/image_processor_node/share/image_processor_node/hook/pythonpath_develop.ps1
+source;../../build/image_processor_node/share/image_processor_node/hook/pythonpath_develop.dsv
+source;../../build/image_processor_node/share/image_processor_node/hook/pythonpath_develop.sh

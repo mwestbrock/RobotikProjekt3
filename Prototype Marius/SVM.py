@@ -6,12 +6,12 @@ from sklearn.svm import SVC
 import joblib
 
 # Lade die CSV-Dateien
-cats_data = pd.read_csv('F:/mariu/Desktop/Projekt 3 HS/Trainingsdaten/Katze.csv')
-unicorns_data = pd.read_csv('F:/mariu/Desktop/Projekt 3 HS/Trainingsdaten/Einhorn.csv')
+cats_data = pd.read_csv('C:/Users/mariu/4. Semester/Projekt/Katze4.csv', decimal=',')
+unicorns_data = pd.read_csv('C:/Users/mariu/4. Semester/Projekt/Einhorn4.csv', decimal=',')
 
 # Füge eine Spalte hinzu, um die Klassen (Labels) zu kennzeichnen
-cats_data['label'] = 'cat'
-unicorns_data['label'] = 'unicorn'
+cats_data['label'] = '0'
+unicorns_data['label'] = '1'
 
 # Kombiniere die Daten aus beiden CSV-Dateien zu einem einzigen Datensatz
 dataset = pd.concat([cats_data, unicorns_data], ignore_index=True)
@@ -44,10 +44,10 @@ print(classification_report(y_test, y_pred))
 
 
 # Speichern des Modells als Datei
-joblib.dump(svm, 'F:/mariu/Desktop/Projekt 3 HS/Trainingsdaten/svm_unicorn_cat.pkl')
+joblib.dump(svm, 'C:/Users/mariu/4. Semester/Projekt/svm_v4.pkl.txt')
 
 
-svm_loaded = joblib.load('F:/mariu/Desktop/Projekt 3 HS/Trainingsdaten/svm_unicorn_cat.pkl')
+svm_loaded = joblib.load('C:/Users/mariu/4. Semester/Projekt/svm_v4.pkl.txt')
 
 print(X.columns)
 print(X.dtypes)
