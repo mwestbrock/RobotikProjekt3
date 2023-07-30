@@ -1,9 +1,0 @@
-source;share/gripper_node/hook/pythonpath.ps1
-source;share/gripper_node/hook/pythonpath.dsv
-source;share/gripper_node/hook/pythonpath.sh
-source;share/gripper_node/hook/ament_prefix_path.ps1
-source;share/gripper_node/hook/ament_prefix_path.dsv
-source;share/gripper_node/hook/ament_prefix_path.sh
-source;../../build/gripper_node/share/gripper_node/hook/pythonpath_develop.ps1
-source;../../build/gripper_node/share/gripper_node/hook/pythonpath_develop.dsv
-source;../../build/gripper_node/share/gripper_node/hook/pythonpath_develop.sh
