@@ -7,7 +7,7 @@ Bevor sie das package installieren stellen Sie sicher, dass ROS 2 richtig instal
 Zur Installation und Konfiguration wird auf die ROS 2 Dokumentation verwiesen: https://docs.ros.org/en/humble/index.html
 
 Um das package zu installieren, clonen sie den src Ordner in ihr ros2-workspace-Verzeichnis
-Falls Sie schon einen existierenden src Ordner haben, können Sie den Inhalt des *RobotikProjekt3/src* Ordners in diesen kopieren.
+<br>Falls Sie schon einen existierenden src Ordner haben, können Sie den Inhalt des *RobotikProjekt3/src* Ordners in diesen kopieren.
 
 Bevor Sie das Paket bauen, überprüfen Sie ob ihre dependencies richtig installiert sind.
 Wechseln sie im Terminal in ihren ros2-workspace und führen sie den Befehl: ```rosdep install -i --from-path src --rosdistro humble -y``` aus.
