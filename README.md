@@ -13,7 +13,7 @@ Bevor Sie das Paket bauen, überprüfen Sie ob ihre dependencies richtig install
 Wechseln sie im Terminal in ihren ros2-workspace und führen sie den Befehl: ```rosdep install -i --from-path src --rosdistro humble -y``` aus.
 <br> Die Konsole sollte ```#All required rosdeps installed succesfully```anzeigen
 
-Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus: <br>```colcon build ```
+Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus: <br>```colcon build ``` Dieser Vorgang kann ein paar Minuten in Anspruch nehmen
 
 ## Anleitung zum Starten des Systems
 ### 1. Installation vorbereiten:
