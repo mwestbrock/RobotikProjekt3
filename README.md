@@ -9,6 +9,20 @@ Zur Installation und Konfiguration wird auf die ROS 2 Dokumentation verwiesen: h
 Um das package zu installieren, clonen sie den src Ordner in ihr ros2-workspace-Verzeichnis
 <br>Falls Sie schon einen existierenden src Ordner haben, können Sie den Inhalt des *RobotikProjekt3/src* Ordners in diesen kopieren.
 
+Stellen Sie sicher das alle beöntigten Python Bibliotheken installiert sind. Folgende Bibliotheken werden benötigt:
+- rcply
+- rcply.ode
+- sensor_msgs.msg
+- cv_bridge
+- cv2
+- numpy
+- sklearn
+- math
+- time
+- joblib
+- pandas
+- cv2.aruco
+
 Bevor Sie das Paket bauen, überprüfen Sie ob ihre dependencies richtig installiert sind.
 Wechseln sie im Terminal in ihren ros2-workspace und führen sie den Befehl: ```rosdep install -i --from-path src --rosdistro humble -y``` aus.
 <br> Die Konsole sollte ```#All required rosdeps installed succesfully```anzeigen
