@@ -43,7 +43,8 @@ Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort 
    <br> Falls die Werte nicht 0.0 sind, versuchen sie den Vorgang erneut und starten Sie auch das rqt Fenster neu!
 ### 5. AruCo Marker positionieren:
 - Platzieren sie die AruCo Marker gemäß dem beigefügten Bild:
-![AruCo](C:/Users/mariu/Downloads/arucos.jpg)
+
+<br> ![AruCo](Bilder/arucos.jpeg)
 ### 6. Kamera ausrichten
 - Schließen sie die Kamera an ihren Computer an
   #### Für die folgenden Schritte können Sie die bereitgestellte Kamera Anwendung ihres Computers verwenden: 
