@@ -3,7 +3,7 @@
 
 
 ## Installation
-Bevor sie das package installieren stellen Sie sicher, dass ROS 2 richtig installiert wurde und Sie eine funktionierende RO2 2 Umgebung konfiguriert haben.
+Bevor sie das package installieren stellen Sie sicher, dass ROS 2 richtig installiert wurde und Sie eine funktionierende ROS 2 Umgebung konfiguriert haben.
 Zur Installation und Konfiguration wird auf die ROS 2 Dokumentation verwiesen: https://docs.ros.org/en/humble/index.html
 
 Um das package zu installieren, clonen sie den src Ordner in ihr ros2-workspace-Verzeichnis
@@ -13,7 +13,7 @@ Bevor Sie das Paket bauen, überprüfen Sie ob ihre dependencies richtig install
 Wechseln sie im Terminal in ihren ros2-workspace und führen sie den Befehl: ```rosdep install -i --from-path src --rosdistro humble -y``` aus.
 <br> Die Konsole sollte ```#All required rosdeps installed succesfully```anzeigen
 
-Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus:```colcon build ```
+Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus: <br>```colcon build ```
 
 ## Anleitung zum Starten des Systems
 ### 1. Installation vorbereiten:
