@@ -11,7 +11,7 @@ Um das package zu installieren, clonen sie den src Ordner in ihr ros2-workspace-
 
 Stellen Sie sicher das alle beöntigten Python Bibliotheken installiert sind. Folgende Bibliotheken werden benötigt:
 - rcply
-- rcply.ode
+- rcply.node
 - sensor_msgs.msg
 - cv_bridge
 - cv2
