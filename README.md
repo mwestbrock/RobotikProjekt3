@@ -20,7 +20,7 @@ Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort 
 ### 3. Anschließen der USB-Verbidungen
  - Schließen Sie die zwei USB-Kabel (ESP, Arduino) der Sortiermaschine an
  - Stellen Sie sicher dass der Arduino und ESP verbunden und verfügbar sind.
-   <br> Im Terminal eingeben: ```ls/dev/``` in dieser Liste müssten die Namen ```ttyACM0``` und ```ttyUSB0```erscheinen.
+   <br> Im Terminal eingeben: ```ls /dev/``` in dieser Liste müssten die Namen ```ttyACM0``` und ```ttyUSB0```erscheinen.
    <br> Falls die Portnamen unterschiedlich sind müssen Sie die Datei: ```install/ro45_ros2_pickrobot_serial/share/ro45_ros2_pickrobot_serial/config/ro45_params.yaml``` anpassen oder den Parameter manuell überschreiben.
 ### 4. Nullpunkt der Sortiermaschine einstellen
 -  Öffnen Sie ein Terminal und wechseln sie in ihr ros2-workspace-Verzeichnis
