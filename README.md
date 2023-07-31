@@ -48,7 +48,7 @@ Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort 
 - Richten Sie die Kamera so aus dass sich die AruCo Marker in der Mitte vom Bild befinden und vollständig zu sehen sind.
 
 ### 7. Starten des Gesamtsystems
-- Öffnen Sie ein neues terminal und wechseln sie in ihr ros2-workspace-Verzeichnis
+- Öffnen Sie ein neues Terminal und wechseln sie in ihr ros2-workspace-Verzeichnis
 - Sourcen Sie ihr ROS2-Overlay ```source install/setup.bash```
 - Starten Sie die Knoten über die launch datei mit folgendem Befehl: ```ros2 launch robot_startup robot_launch.py```
   <br> Die Maschine fährt nun auf die Idle-Position und es kann sortiert werden
