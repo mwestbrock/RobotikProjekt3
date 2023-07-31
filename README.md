@@ -71,6 +71,75 @@ Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort 
 - Starten Sie die Knoten über die launch datei mit folgendem Befehl: ```ros2 launch robot_startup robot_launch.py```
   <br> Die Maschine fährt nun auf die Idle-Position und es kann sortiert werden
 
+# Bedienungsanleitung für die Verwendung des Test Runners und der vorhandenen Unit-Tests 
+
+Vielen Dank, dass Sie unsere Software-Komponenten testen möchten. Diese Bedienungsanleitung 
+führt Sie durch die Schritte, um den Test Runner zu verwenden und alle vorhandenen Unit-Tests 
+gleichzeitig auszuführen, um sicherzustellen, dass die Funktionalität der Komponente korrekt ist. 
+## Voraussetzungen: 
+1. Stellen Sie sicher, dass Sie Python auf Ihrem Computer installiert haben. Wenn Python noch 
+nicht installiert ist, können Sie es von der offiziellen Website (https://www.python.org/) 
+herunterladen und installieren. 
+2. Überprüfen Sie, ob die erforderlichen Bibliotheken cv2 (OpenCV) und numpy installiert sind. 
+Diese Bibliotheken werden für die Bildverarbeitung und die Arbeit mit Arrays benötigt. Wenn 
+sie noch nicht installiert sind, können Sie sie mithilfe des Python-Paketmanagers pip 
+installieren: 
+<br>```pip install opencv-python ```
+<br> ```pip install numpy``` 
+## Schritte zur Ausführung der Unit-Tests mit dem Test Runner: 
+3. Laden Sie alle gegebenen Codes für die Software-Komponenten, z.B. die Komponente 
+„transform_to_birds_eye_view", und den Test Runner herunter und speichern Sie die Dateien 
+auf Ihrem Computer. 
+4. Stellen Sie sicher, dass Ihre Testdateien im Verzeichnis "robotik_projekt" gespeichert sind und 
+dass diese Dateien mit "test_" beginnen und die Dateiendung ".py" haben. Beispiel: 
+"test_transform_to_birds_eye_view.py". 
+## Öffnen Sie ein Terminal (Linux/Mac) oder die Eingabeaufforderung (Windows) auf Ihrem Computer. 
+5. Navigieren Sie im Terminal oder der Eingabeaufforderung zum Verzeichnis, in dem Sie die 
+heruntergeladenen Dateien gespeichert haben. Verwenden Sie dazu den Befehl cd (Change 
+Directory).
+6. Führen Sie den Test Runner aus, um alle Unit-Tests für die vorhandenen Software-Komponenten auszuführen. Geben Sie dazu den folgenden Befehl ein und drücken Sie die 
+Eingabetaste: 
+<br>```python test_runner.py ```
+
+Der Test Runner startet nun automatisch alle vorhandenen Unit-Tests. Sie sehen die Testergebnisse in 
+der Kommandozeile, die Ihnen mitteilen, ob alle Tests erfolgreich waren oder ob es Fehler oder 
+Fehlschläge gab. 
+## Interpretation der Testergebnisse:
+7. Wenn alle Tests erfolgreich waren, erhalten Sie eine Bestätigung, dass die Komponenten 
+ordnungsgemäß funktioniert und die erwarteten Ergebnisse liefert.
+8. Wenn es Fehler oder Fehlschläge gibt, erhalten Sie eine Fehlermeldung mit Informationen, 
+welche Tests fehlgeschlagen sind. Diese Fehlermeldungen helfen Ihnen dabei, potenzielle 
+Probleme in der SoŌware zu identifizieren, damit Sie diese beheben können.
+<br>**Hinweis:** Wenn Sie Änderungen an den Software-Komponenten, z.B. der 
+"transform_to_birds_eye_view"-Komponente, vornehmen, empfehlen wir Ihnen, den Test Runner 
+erneut auszuführen, um sicherzustellen, dass Ihre Änderungen keine unerwünschten Auswirkungen 
+haben und die Software weiterhin zuverlässig arbeitet.
+Mit unserem Test Runner können Sie die Qualität und Funktionalität Ihrer Software-Komponenten 
+einfach überprüfen und sicherstellen, dass sie den Anforderungen gerecht werden. 
+## Durchführung einzelner Unit-Tests 
+Hier ist die zusätzliche Information zur Durchführung einzelner Unit-Tests unabhängig vom Test 
+Runner: Wenn Sie einzelne Unit-Tests unabhängig vom Test Runner durchführen möchten, befolgen 
+Sie bitte diese Schritte:
+1. Öffnen Sie ein Terminal (Linux/Mac) oder die Eingabeaufforderung (Windows) auf Ihrem 
+Computer.
+2. Navigieren Sie im Terminal oder der Eingabeaufforderung zum Verzeichnis, in dem sich die 
+Testdateien befinden. Verwenden Sie dazu den Befehl cd (Change Directory). 
+3. Führen Sie den gewünschten Unit-Test aus, indem Sie den entsprechenden Befehl eingeben. 
+Die Testdateien haben das Format "test_{name}.py", wobei "{name}" für den Namen der 
+Software-Komponente steht, die Sie testen möchten. Beispiel: 
+"test_transform_to_birds_eye_view.py". 
+4. Verwenden Sie den Befehl "python" gefolgt vom Dateinamen des Unit-Tests, um diesen 
+auszuführen. Beispiel: 
+```python test_transform_to_birds_eye_view.py``` 
+5. Der ausgewählte Unit-Test wird nun ausgeführt und Sie erhalten die Testergebnisse in der 
+Kommandozeile. Wenn der Test erfolgreich ist, wird dies bestätigt. Falls es Fehler oder 
+Fehlschläge gibt, werden entsprechende Fehlermeldungen angezeigt. 
+Indem Sie einzelne Unit-Tests unabhängig ausführen, können Sie gezielt bestimmte Software-Komponenten testen und potenzielle Probleme identifizieren. Dies ermöglicht Ihnen eine effektive 
+Fehlerbehebung und verbessert die Gesamtqualität Ihrer Software.
+Bei Fragen oder Problemen stehen wir Ihnen gerne zur Verfügung. 
+Mit freundlichen Grüßen, 
+Ihr Software-Team (Computer Clowns) 
+
 
 
 
