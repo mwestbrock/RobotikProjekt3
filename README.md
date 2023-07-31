@@ -133,12 +133,15 @@ auszuführen. Beispiel:
 ```python test_transform_to_birds_eye_view.py``` 
 5. Der ausgewählte Unit-Test wird nun ausgeführt und Sie erhalten die Testergebnisse in der 
 Kommandozeile. Wenn der Test erfolgreich ist, wird dies bestätigt. Falls es Fehler oder 
-Fehlschläge gibt, werden entsprechende Fehlermeldungen angezeigt. 
-Indem Sie einzelne Unit-Tests unabhängig ausführen, können Sie gezielt bestimmte Software-Komponenten testen und potenzielle Probleme identifizieren. Dies ermöglicht Ihnen eine effektive 
+Fehlschläge gibt, werden entsprechende Fehlermeldungen angezeigt.
+
+<br>Indem Sie einzelne Unit-Tests unabhängig ausführen, können Sie gezielt bestimmte Software-Komponenten testen und potenzielle Probleme identifizieren. Dies ermöglicht Ihnen eine effektive 
 Fehlerbehebung und verbessert die Gesamtqualität Ihrer Software.
-Bei Fragen oder Problemen stehen wir Ihnen gerne zur Verfügung. 
-Mit freundlichen Grüßen, 
-Ihr Software-Team (Computer Clowns) 
+
+<br>Bei Fragen oder Problemen stehen wir Ihnen gerne zur Verfügung. 
+
+<br>Mit freundlichen Grüßen, 
+<br>Ihr Software-Team (Computer Clowns) 
 
 
 
