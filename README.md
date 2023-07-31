@@ -16,7 +16,7 @@ Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort 
 ### 1. Installation vorbereiten:
 - Stellen Sie sicher, dass alle erforderlichen Komponenten und Software vorhanden sind.
 ### 2. USB-Slots freigeben:
- - Öffnen Sie ein Terminal und führen den Befehl : ```sudo usermod –a –G dialout $USER```aus.
+ - Öffnen Sie ein Terminal und führen Sie den Befehl : ```sudo usermod –a –G dialout $USER```aus.
 ### 3. Anschließen der USB-Verbidungen
  - Schließen Sie die zwei USB-Kabel (ESP, Arduino) der Sortiermaschine an
  - Stellen Sie sicher dass der Arduino und ESP verbunden und verfügbar sind.
