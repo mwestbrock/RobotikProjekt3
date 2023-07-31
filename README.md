@@ -9,8 +9,11 @@ Zur Installation und Konfiguration wird auf die ROS 2 Dokumentation verwiesen: h
 Um das package zu installieren, clonen sie den src Ordner in ihr ros2-workspace-Verzeichnis
 Falls Sie schon einen existierenden src Ordner haben, können Sie den Inhalt des *RobotikProjekt3/src* Ordners in diesen kopieren.
 
-Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus:
-```colcon build ```
+Bevor Sie das Paket bauen, überprüfen Sie ob ihre dependencies richtig installiert sind.
+Wechseln sie im Terminal in ihren ros2-workspace und führen sie den Befehl: ```rosdep install -i --from-path src --rosdistro humble -y``` aus.
+<br> Die Konsole sollte ```#All required rosdeps installed succesfully```anzeigen
+
+Wechseln Sie im Terminal in ihr ros2-workspace Verzeichnis und führen Sie dort den folgenden Befehl aus:```colcon build ```
 
 ## Anleitung zum Starten des Systems
 ### 1. Installation vorbereiten:
